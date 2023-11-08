@@ -1,0 +1,6 @@
+*
+!.gitignore
+!addons
+!build
+!main.js
+!style.css

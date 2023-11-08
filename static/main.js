@@ -8,23 +8,42 @@ var objList = [];
 let object;
 
 init();
-
-
 export function init() {
 
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
-	camera.position.z = 2.5;
+	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.05, 500 );
+	camera.position.set(1, 1, 2.5);
 
 	// scene
 
 	scene = new THREE.Scene();
+	scene.background = new THREE.Color(0xEAEAEA);
+	const gridHelper = new THREE.GridHelper(10, 10); // Parameters: size (total grid size), divisions (number of divisions)
+	// scene.add(gridHelper);
 
+	
 	const ambientLight = new THREE.AmbientLight( 0xffffff );
 	scene.add( ambientLight );
 
 	const pointLight = new THREE.PointLight( 0xffffff, 15 );
 	camera.add( pointLight );
 	scene.add( camera );
+
+	// Create a spot light
+	const spotLight = new THREE.SpotLight(0xffffff); // Set the light color
+
+	// Set the light's position
+	spotLight.position.set(10, 10, -10); // Set the position of the spot light
+
+	// Set the direction in which the light is pointing
+	spotLight.target.position.set(0, 0, 0); // Set the target position for the light
+
+	// Define the light's properties
+	spotLight.distance = 200; // Set the maximum distance over which the light can reach
+	spotLight.angle = Math.PI / 6; // Set the angle of the light cone in radians
+	spotLight.penumbra = 0.1; // Set the penumbra (softness) of the light's edges
+
+	scene.add(spotLight); // Add the spot light to your scene
+
 
 	document.addEventListener("DOMContentLoaded", function() {
 		// Access the Python list of filenames in JavaScript
@@ -37,18 +56,11 @@ export function init() {
 			loadModel(objList[0]);
 			currentIndex=0
 		}
-		// For example, you can loop through the filenames and perform actions in JavaScript
-		// for (var i = 0; i < objList.length; i++) {
-		// 	var filename = objList[i];
-		// 	{{filename}}
-		// 	// Perform actions with each filename
-		// }
 	});
 
+	document.getElementById('carouselPrevButton').addEventListener('click', loadPreviousModel);
+	document.getElementById('carouselNextButton').addEventListener('click', loadNextModel);
 
-    // Add event listeners for the "Prev" and "Next" buttons
-    document.getElementById('prev-button').addEventListener('click', loadPreviousModel);
-    document.getElementById('next-button').addEventListener('click', loadNextModel);
 
 	function loadModel(objURL) {
 	// Clear the previous object if there was one
@@ -60,7 +72,16 @@ export function init() {
 	loader.load(objURL, function (obj) {
 		object = obj;
 		object.position.y = 0.0;
-		object.scale.setScalar(1);
+		var boundingBox = new THREE.Box3().setFromObject(object);
+		var center = boundingBox.getCenter(new THREE.Vector3());
+		var size = boundingBox.getSize(new THREE.Vector3());
+		var maxDim = Math.max(size.x, size.y, size.z);
+		var scaleFactor = 1 / maxDim*1.4;
+
+
+		object.scale.set(scaleFactor, scaleFactor, scaleFactor);
+		object.position.sub(center.multiplyScalar(scaleFactor));
+		// object.scale.setScalar(1);
 		scene.add(object);
 		render();
 	}, onProgress, onError);
@@ -119,7 +140,9 @@ export function init() {
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth/4, window.innerHeight/4);
+	renderer.setSize( window.innerWidth/3.5, window.innerHeight/3.5+100);
+	camera.aspect = (window.innerWidth/3.5) / (window.innerHeight/3.5+100);
+	camera.updateProjectionMatrix();
 	document.getElementById('model-container').appendChild( renderer.domElement );
 	//
 	const controls = new  OrbitControls( camera, renderer.domElement );
@@ -133,10 +156,11 @@ export function init() {
 
 export function onWindowResize() {
 
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+	
 
-	renderer.setSize( window.innerWidth/4, window.innerHeight/4);
+	renderer.setSize( window.innerWidth/3.5, window.innerHeight/3.5+100);
+	camera.aspect = (window.innerWidth/3.5) / (window.innerHeight/3.5+100);
+	camera.updateProjectionMatrix();
 	render()
 
 }

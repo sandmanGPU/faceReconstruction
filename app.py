@@ -68,7 +68,7 @@ def processImage(filename):
         obj_list = [url_for('static', filename=f'results/{x}') for x in obj_list]
         print('######$$$$$$$#####\n',obj_list)
 
-        return render_template('upload.html', image_list=crop_list, obj_list=obj_list, filename=filename)
+        return render_template('upload.html', image_list=crop_list, obj_list=obj_list, filename=filename, enable_process=True)
     else:
         return redirect(request.url)
 

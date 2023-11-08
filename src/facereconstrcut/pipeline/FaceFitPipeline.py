@@ -31,7 +31,7 @@ class FaceFitter():
             box = entry['box']
             confidence = entry['confidence']
             keypoints = entry['keypoints']
-            if confidence < 0.8:
+            if confidence < 0.9:
                 continue
             lm = np.array(list(keypoints.values()))
             cropped = self.img[box[1]:box[1]+box[3], box[0]:box[0]+box[2]]
