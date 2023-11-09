@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Me3D</title>
+    <link rel="stylesheet" href="static/particle.css">
+    <link rel="stylesheet" href="static/landingstyle.css">
+
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="center-card">
+        <h1>Welcome to Me3D</h1>
+        <p>Turn Your Photo into a 3D Masterpiece</p>
+        <p>Upload a photo capturing your frontal face, and watch it magically transform into a lifelike 3D model.</p>
+        <p>Once the processing is complete, download your unique 3D creation to share with the world.</p>
+        
+        <form class="file-upload" method="POST" action="/up" enctype="multipart/form-data">
+            <label for="fileInput">Get Started</label>
+            <input type="submit" value="Upload" id="fileInput">
+        </form>
+    </div>
+
+    <script src="static/addons/particles.js"></script>
+    <script src="static/particle.js"></script>
+</body>
+</html>

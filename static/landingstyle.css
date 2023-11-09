@@ -1,0 +1,44 @@
+.center-card {
+            position: absolute;
+            top: 50%;
+            width: 400px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.3); /* Transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color:azure;
+            font-size: 24px; /* Adjust the font size as needed */
+        }
+        p {
+            font-size: 17px; /* Adjust the font size as needed */
+        }
+        .file-upload {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+
+        #fileInput {
+            display: none;
+        }
+
+        label {
+            cursor: pointer;
+            background-color: #007BFF;
+            font-size: medium;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        label:hover, label:focus, label:active{
+            box-shadow: 0 0 25px rgba(255, 255, 255, 1);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }

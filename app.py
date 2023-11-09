@@ -18,7 +18,12 @@ def allowed_file(filename):
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/home')
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/up', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'POST':
         # Check if a file is provided in the POST request
