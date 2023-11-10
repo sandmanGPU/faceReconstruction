@@ -3,9 +3,15 @@ import os
 from werkzeug.utils import secure_filename
 from src.facereconstrcut.pipeline.FaceFitPipeline import FaceFitter
 from src.facereconstrcut import logger
-import json
+from flask_cors import CORS, cross_origin
+
+
+os.putenv('LANG', 'en_US.UTF-8')
+os.putenv('LC_ALL', 'en_US.UTF-8')
+
 app = Flask(__name__)
-import cv2
+CORS(app)
+
 UPLOAD_FOLDER = 'static/uploads'
 RESULT_FOLDER = 'static/results'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -20,10 +26,12 @@ def allowed_file(filename):
 
 @app.route('/home')
 @app.route('/')
+@cross_origin()
 def home():
     return render_template('index.html')
 
 @app.route('/up', methods=['GET', 'POST'])
+@cross_origin()
 def upload_image():
     if request.method == 'POST':
         # Check if a file is provided in the POST request
@@ -48,16 +56,19 @@ def upload_image():
     return render_template('upload.html')
 
 @app.route('/uploads/<filename>')
+@cross_origin()
 def show_image(filename):
     return render_template('upload.html', filename=filename)
 
 
 @app.route('/results/<filename>')
+@cross_origin()
 def show_res(filename):
     savename = os.path.basename(filename).split('.')[0] + '-crop.png'
     return render_template('upload.html', resultname=savename, filename=filename)
 
 @app.route('/process_image/<filename>', methods=['POST'])
+@cross_origin()
 def processImage(filename):
     if request.method=='POST':
         #Read the image from static upload folder
@@ -68,10 +79,10 @@ def processImage(filename):
         save_dir = app.config['RESULT_FOLDER']
         os.makedirs(save_dir, exist_ok=True)
         obj_list, crop_list = ff.fitface(save_dir)
-        print('######$$$$$$$#####\n',crop_list)
+        # print('######$$$$$$$#####\n',crop_list)
         
         obj_list = [url_for('static', filename=f'results/{x}') for x in obj_list]
-        print('######$$$$$$$#####\n',obj_list)
+        # print('######$$$$$$$#####\n',obj_list)
 
         return render_template('upload.html', image_list=crop_list, obj_list=obj_list, filename=filename, enable_process=True)
     else:

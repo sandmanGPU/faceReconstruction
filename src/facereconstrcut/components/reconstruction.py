@@ -38,10 +38,13 @@ class ReconstrcutionModel:
         }
         self.model.set_input(data)
         self.model.test() 
-        visuals = self.model.get_current_visuals()  # get image results
+        # visuals = self.model.get_current_visuals()  # get image results
        
 
         self.model.save_mesh(savename) # save reconstruction meshes
         # self.model.save_coeff(os.path.join(save_dir,'face.obj')) # save predicted coefficients
 
-        return visuals
+        # return visuals
+
+if __name__ == "__main__":
+    print("Running Facefitter\n")

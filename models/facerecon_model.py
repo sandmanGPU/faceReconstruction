@@ -136,8 +136,8 @@ class FaceReconModel(BaseModel):
         self.facemodel.to(self.device)
         self.pred_vertex, self.pred_tex, self.pred_color, self.pred_lm = \
             self.facemodel.compute_for_render(output_coeff)
-        self.pred_mask, _, self.pred_face = self.renderer(
-            self.pred_vertex, self.facemodel.face_buf, feat=self.pred_color)
+        # self.pred_mask, _, self.pred_face = self.renderer(
+        #     self.pred_vertex, self.facemodel.face_buf, feat=self.pred_color)
         
         self.pred_coeffs_dict = self.facemodel.split_coeff(output_coeff)
 
@@ -155,8 +155,8 @@ class FaceReconModel(BaseModel):
         self.loss_feat = self.opt.w_feat * self.compute_feat_loss(pred_feat, gt_feat)
 
         face_mask = self.pred_mask
-        if self.opt.use_crop_face:
-            face_mask, _, _ = self.renderer(self.pred_vertex, self.facemodel.front_face_buf)
+        # if self.opt.use_crop_face:
+            # face_mask, _, _ = self.renderer(self.pred_vertex, self.facemodel.front_face_buf)
         
         face_mask = face_mask.detach()
         self.loss_color = self.opt.w_color * self.comupte_color_loss(
@@ -176,7 +176,7 @@ class FaceReconModel(BaseModel):
 
     def optimize_parameters(self, isTrain=True):
         self.forward()               
-        self.compute_losses()
+        # self.compute_losses()
         """Update network weights; it will be called in every training iteration."""
         if isTrain:
             self.optimizer.zero_grad()  
