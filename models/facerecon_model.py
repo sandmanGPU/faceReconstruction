@@ -99,8 +99,7 @@ class FaceReconModel(BaseModel):
         fov = 2 * np.arctan(opt.center / opt.focal) * 180 / np.pi
         self.renderer = MeshRenderer(
             rasterize_fov=fov, znear=opt.z_near, zfar=opt.z_far, rasterize_size=int(2 * opt.center), use_opengl=opt.use_opengl
-        )
-
+        ) #this cannot be left out even in test mode
         if self.isTrain:
             self.loss_names = ['all', 'feat', 'color', 'lm', 'reg', 'gamma', 'reflc']
 

@@ -12,6 +12,11 @@ os.putenv('LC_ALL', 'en_US.UTF-8')
 app = Flask(__name__)
 CORS(app)
 
+
+class ClientApp:
+    def __init__(self):
+        self.facefit=FaceFitter()
+
 UPLOAD_FOLDER = 'static/uploads'
 RESULT_FOLDER = 'static/results'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -75,10 +80,10 @@ def processImage(filename):
         inputname = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
         #process it
-        ff = FaceFitter(inputname)
+        ff = clApp.facefit.setInput(inputname)
         save_dir = app.config['RESULT_FOLDER']
         os.makedirs(save_dir, exist_ok=True)
-        obj_list, crop_list = ff.fitface(save_dir)
+        obj_list, crop_list = clApp.facefit.fitface(save_dir)
         # print('######$$$$$$$#####\n',crop_list)
         
         obj_list = [url_for('static', filename=f'results/{x}') for x in obj_list]
@@ -90,4 +95,5 @@ def processImage(filename):
 
 
 if __name__ == '__main__':
+    clApp = ClientApp()
     app.run(debug=True)

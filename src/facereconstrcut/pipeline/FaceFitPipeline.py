@@ -10,15 +10,18 @@ import base64
 
 
 class FaceFitter():
-    def __init__(self, filename):
-        self.filename=filename
+    def __init__(self):
         self.opt = TestOptions().parse()
+        self.obj1 = ReconstrcutionModel(self.opt)
+    
+    def setInput(self,filename):
+        self.filename=filename
 
     def fitface(self, save_dir):
         # logger.info("Now loading file: ", self.filename)
         self.img = cv2.cvtColor(cv2.imread(self.filename), cv2.COLOR_BGR2RGB)
         obj0 = LM_MTCNN()
-        obj1 = ReconstrcutionModel(self.opt)
+        # obj1 = ReconstrcutionModel(self.opt)
         lms = obj0.getLandmarks(self.img)
         visuals =[]
         obj_list = [] #list to hold saved obj files
@@ -43,7 +46,7 @@ class FaceFitter():
             crop_list.append(save_prefix+'-'+str(j)+'-crop.jpg')
       
             obj_savename=os.path.join(save_dir, save_prefix+'-'+str(j)+'.obj')
-            # visual = obj1.reconstruct(self.img, lm, obj_savename)
+            self.obj1.reconstruct(self.img, lm, obj_savename)
             obj_list.append(save_prefix+'-'+str(j)+'.obj')
             # visuals.append(visual)
             # for label,image in visual.items():
