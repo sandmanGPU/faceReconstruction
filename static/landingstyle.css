@@ -42,3 +42,19 @@
             -webkit-transform: scale(1.1);
             transform: scale(1.1);
         }
+
+        .citation {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(215, 215, 215, 0.4);
+            color: #000000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 9px;
+          }
+          
+          .citation a {
+            color: #fff;
+            text-decoration: none;
+          }

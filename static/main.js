@@ -24,9 +24,18 @@ export function init() {
 	const ambientLight = new THREE.AmbientLight( 0xffffff );
 	scene.add( ambientLight );
 
-	const pointLight = new THREE.PointLight( 0xffffff, 15 );
+	const pointLight = new THREE.PointLight( 0xffffff, 5);
 	camera.add( pointLight );
 	scene.add( camera );
+
+	const pointLight2 = new THREE.PointLight( 0xffffff, 15 );
+	pointLight2.position.set(0,-5,0)
+	scene.add( pointLight2);
+
+	const dl = new THREE.DirectionalLight(0xffffff, 2);
+		dl.position.set(1, 1, 7);
+		scene.add(dl);
+	
 
 	// Create a spot light
 	const spotLight = new THREE.SpotLight(0xffffff); // Set the light color
@@ -38,9 +47,9 @@ export function init() {
 	spotLight.target.position.set(0, 0, 0); // Set the target position for the light
 
 	// Define the light's properties
-	spotLight.distance = 200; // Set the maximum distance over which the light can reach
+	spotLight.distance = 500; // Set the maximum distance over which the light can reach
 	spotLight.angle = Math.PI / 6; // Set the angle of the light cone in radians
-	spotLight.penumbra = 0.1; // Set the penumbra (softness) of the light's edges
+	spotLight.penumbra = 0.3; // Set the penumbra (softness) of the light's edges
 
 	scene.add(spotLight); // Add the spot light to your scene
 
