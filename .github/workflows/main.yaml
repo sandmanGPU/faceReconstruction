@@ -1,0 +1,28 @@
+name: Me3D workflow
+
+on:
+  push:
+    branches:
+      - main
+    
+    paths-ignore:
+      - 'README.md'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  integrations:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout conde
+        uses: actions/checkout@v3
+
+      - name: Lint code
+        uses: github/super-linter@v3
+        env:
+           DEFAULT_BRANCH: main
+           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+
