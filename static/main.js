@@ -69,6 +69,31 @@ export function init() {
 
 	document.getElementById('carouselPrevButton').addEventListener('click', loadPreviousModel);
 	document.getElementById('carouselNextButton').addEventListener('click', loadNextModel);
+	document.getElementById('downloadButton').addEventListener('click', downloadObj);
+
+
+	function downloadObj() {
+		// Specify the path to the file
+		const filePath = objList[currentIndex];
+
+		// Create an anchor element
+		const a = document.createElement('a');
+
+		// Set the href attribute with the file path
+		a.href = filePath;
+
+		// Set the download attribute with the desired filename
+		a.download = 'model.obj';
+
+		// Append the anchor element to the document
+		document.body.appendChild(a);
+
+		// Simulate a click on the anchor element to trigger the download
+		a.click();
+
+		// Remove the anchor element from the document
+		document.body.removeChild(a);
+	}
 
 
 	function loadModel(objURL) {

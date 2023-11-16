@@ -99,6 +99,10 @@
         </div>
         <div class="card-body">
           <div id="filenames" style="display: none;">{{ obj_list | tojson | safe }}</div>
+       
+           <button id="downloadButton" class="monbtn monbtncenter widebtn">Download</button>
+
+           
         </div>
       </div>
       <script type="module" src="{{url_for('static', filename='main.js')}}"></script>
